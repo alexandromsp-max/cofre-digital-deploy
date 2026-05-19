@@ -1,0 +1,20 @@
+istórico de commits e gerar notas de versão automaticamente.Passos para configurar:Acesse o seu repositório no GitHub.Vá na aba Actions e crie um novo workflow, ou adicione o arquivo .github/workflows/release.yml.Configure o script para disparar quando você criar ou enviar uma tag.Exemplo de Workflow:yamlname: Auto Release Notes
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Dispara quando uma tag como v1.0.0 é criada
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Criar Release no GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true # Preenche as notas de versão automaticamente
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
